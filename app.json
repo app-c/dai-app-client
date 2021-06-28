@@ -1,0 +1,12 @@
+{
+  "name": "DaiNails",
+  "displayName": "DaiNails",
+  "expo": {
+    "name": "DaiNails",
+    "slug": "DaiNails",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
