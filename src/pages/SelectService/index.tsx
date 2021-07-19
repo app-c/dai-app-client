@@ -55,7 +55,7 @@ const SelectService: React.FC = () => {
     }, [navigate]);
 
     useEffect(() => {
-        api.get(`/${providerId}/list`)
+        api.get(`/service/${providerId}/list`)
             .then((response) => {
                 setRespost(response.data);
             })

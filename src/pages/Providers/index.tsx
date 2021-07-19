@@ -27,6 +27,7 @@ export interface Provider {
     id: string;
     nome: string;
     avatar: string;
+    funcao: string;
 }
 
 const Prestadores: React.FC = () => {
@@ -96,7 +97,7 @@ const Prestadores: React.FC = () => {
                                     <ProviderMetaText
                                         style={{ fontFamily: "MontRegular" }}
                                     >
-                                        Designer de unhas
+                                        {provider.funcao}
                                     </ProviderMetaText>
                                 </ProviderMeta>
                             </ProviderInfo>

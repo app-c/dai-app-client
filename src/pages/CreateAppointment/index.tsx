@@ -27,6 +27,7 @@ import {
 
 import api from "../../services/api";
 import { cores } from "../../utils/ferramentas";
+import { useAuth } from "../../hooks/AuthContext";
 
 interface RouteParams {
     providerId: string;
@@ -56,6 +57,7 @@ const CreateAppointment: React.FC = () => {
     const route = useRoute();
     const routeParams = route.params as RouteParams;
     const { goBack, navigate } = useNavigation();
+    const { user } = useAuth();
 
     const [selectedProvider] = useState(routeParams.providerId);
 
@@ -171,6 +173,7 @@ const CreateAppointment: React.FC = () => {
             api.get(`agendamento/h/horarios`, {
                 params: {
                     provider_id: selectedProvider,
+                    user_id: user.id,
                     mes,
                     ano,
                     dia,

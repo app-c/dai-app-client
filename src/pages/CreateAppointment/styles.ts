@@ -75,7 +75,7 @@ export const CreateAppointmentButton = styled(RectButton)`
     margin-left: 5%;
 `;
 
-export const Content = styled.View<HourProps>`
+export const Content = styled.View`
     padding: 25px;
     align-items: center;
     flex: 1;
