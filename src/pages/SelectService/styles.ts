@@ -21,7 +21,7 @@ export const BackButton = styled.TouchableOpacity`
     margin-left: 30px;
 `;
 
-export const HomeContainer = styled.TouchableOpacity`
+export const HomeContainer = styled(RectButton)`
     margin-right: 30px;
 `;
 
@@ -43,11 +43,10 @@ export const ServiceContainer = styled(
 export const BoxContainer = styled(RectButton)``;
 
 export const Box = styled.View`
-    background: ${cores.roxo};
+    background: rgba(165, 99, 134, 0.8);
     margin-top: 18px;
     border-radius: 18px;
     padding: 8px 10px 15px 10px;
-    opacity: 0.8;
 `;
 
 export const ServiceText = styled.Text`

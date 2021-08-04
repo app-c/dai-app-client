@@ -53,19 +53,12 @@ const SingIn: React.FC = () => {
                 await signIn({
                     email: data.email,
                     senha: data.senha,
-                }).then((h) => {
-                    console.log(h);
                 });
             } catch (err) {
                 if (err instanceof Yup.ValidationError) {
                     const errors = getValidationErrors(err);
                     formRef.current?.setErrors(errors);
                 }
-
-                Alert.alert(
-                    "Erro na autenticação",
-                    "Ocorreu um erro ao fazer login"
-                );
             }
         },
         [signIn]

@@ -1,6 +1,12 @@
 /* eslint-disable camelcase */
 import React, { useRef, useCallback, useState, useEffect } from "react";
-import { AntDesign, Feather, Fontisto } from "@expo/vector-icons";
+import {
+    AntDesign,
+    EvilIcons,
+    Feather,
+    FontAwesome5,
+    Fontisto,
+} from "@expo/vector-icons";
 import {
     KeyboardAvoidingView,
     ScrollView,
@@ -28,6 +34,7 @@ import {
     Header,
     HomeContainer,
 } from "./styles";
+import { cores } from "../../utils/ferramentas";
 
 interface ProfileFormData {
     nome: string;
@@ -191,22 +198,37 @@ const Profile: React.FC = () => {
                             <AntDesign
                                 name="arrowleft"
                                 size={30}
-                                color="black"
+                                color={cores.roxo}
                             />
                         </BackButton>
 
                         <HomeContainer onPress={logOf}>
-                            <Fontisto name="power" size={30} color="black" />
+                            <Fontisto
+                                name="power"
+                                size={30}
+                                color={cores.roxo}
+                            />
                         </HomeContainer>
                     </Header>
+                    {!user.avatar && (
+                        <UserAvatarButtom onPress={UpdateAvatar}>
+                            <EvilIcons
+                                name="user"
+                                size={170}
+                                color={cores.roxo}
+                            />
+                        </UserAvatarButtom>
+                    )}
 
-                    <UserAvatarButtom onPress={UpdateAvatar}>
-                        <UserAvatar
-                            source={{
-                                uri: av || `${urlAvatar}${user.avatar}`,
-                            }}
-                        />
-                    </UserAvatarButtom>
+                    {user.avatar && (
+                        <UserAvatarButtom onPress={UpdateAvatar}>
+                            <UserAvatar
+                                source={{
+                                    uri: av || `${urlAvatar}${user.avatar}`,
+                                }}
+                            />
+                        </UserAvatarButtom>
+                    )}
 
                     <View>
                         <Text>Meu perfil</Text>

@@ -3,8 +3,8 @@ import styled from "styled-components/native";
 import { cores } from "../../utils/ferramentas";
 
 interface HourProps {
-    available: boolean;
-    select: boolean;
+    available?: boolean;
+    select?: boolean;
 }
 
 export const Container = styled.View`
@@ -40,15 +40,11 @@ export const Calendario = styled.View`
     /* justify-content: center; */
     width: 100%;
     height: 100px;
-    background-color: ${cores.roxo};
-    opacity: 0.8;
+    background: rgba(165, 99, 134, 0.6);
     border-radius: 10px;
 `;
 
-export const SectionContente = styled.ScrollView.attrs({
-    contentContainerStyle: { paddingHorizontal: 24 },
-    horizontal: true,
-})`
+export const SectionContente = styled.View`
     margin-top: 30px;
 `;
 

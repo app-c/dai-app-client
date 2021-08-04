@@ -66,8 +66,8 @@ export const ContainerAgenda = styled.View`
     width: 100%;
     justify-content: space-between;
 
-    background: ${cores.roxo};
-    opacity: 0.8;
+    background: rgba(165, 99, 134, 0.8);
+    /* opacity: 0.8; */
 
     margin-top: 5px;
     border-radius: 10px;
@@ -94,7 +94,7 @@ export const ContainerDescricao = styled.View`
 
 export const TextDescription = styled.Text`
     font-size: 18px;
-    color: #000000;
+    color: ${cores.branco};
 `;
 
 export const ContainerAfterAgendamento = styled(
@@ -107,15 +107,14 @@ export const ContainerAfter = styled.View`
     width: 100%;
     justify-content: space-between;
 
-    background: ${cores.roxo};
-    opacity: 0.5;
+    background: rgba(165, 99, 134, 0.5);
 
     margin-top: 5px;
     border-radius: 10px;
 `;
 
 export const ContainerDelete = styled.TouchableOpacity`
-    top: 25%;
+    margin-top: 45px;
     justify-content: center;
     align-self: flex-end;
     width: 45%;

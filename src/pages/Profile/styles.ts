@@ -1,6 +1,6 @@
-import styled from 'styled-components/native';
-import { Platform } from 'react-native';
-import { cores } from '../../utils/ferramentas';
+import styled from "styled-components/native";
+import { Platform } from "react-native";
+import { cores } from "../../utils/ferramentas";
 
 export const Container = styled.View`
     flex: 1;

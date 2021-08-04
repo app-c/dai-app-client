@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { Feather, Fontisto } from "@expo/vector-icons";
-import { Alert, Text, View } from "react-native";
+import { Alert, FlatList, Text, View } from "react-native";
 import { format, getDate, getMonth, getYear } from "date-fns";
 import CalendaPiker from "@react-native-community/datetimepicker";
 import * as Notificatons from "expo-notifications";
@@ -78,6 +79,7 @@ const CreateAppointment: React.FC = () => {
                 0,
                 conver
             );
+
             const sec = differenceInSeconds(dataAgendada, data) - 60 * 60;
 
             const notifica = await Notificatons.scheduleNotificationAsync({
@@ -117,6 +119,7 @@ const CreateAppointment: React.FC = () => {
             const time = new Date(ano, mes - 1, dia, 0, tempo, 0);
             await api.post("agendamento", {
                 provider_id: selectedProvider,
+                user_id: user.id,
                 from: selectHour,
                 dia,
                 mes,
@@ -126,15 +129,18 @@ const CreateAppointment: React.FC = () => {
 
             Notification(selectHour);
 
-            navigate("AgendamentoCriado", { date: time.getTime() });
+            navigate("AgendamentoCriado", {
+                date: time.getTime(),
+                provider: selectedProvider,
+            });
         } catch (err) {
-            console.log(err);
             Alert.alert("Erro ao criar agendamento", err.message);
         }
     }, [
         selectHour,
         selectDia,
         selectedProvider,
+        user.id,
         selectService,
         Notification,
         navigate,
@@ -170,10 +176,9 @@ const CreateAppointment: React.FC = () => {
             const mes = getMonth(dat) + 1;
             const ano = getYear(dat);
 
-            api.get(`agendamento/h/horarios`, {
+            api.get(`/agendamento/h/horarios`, {
                 params: {
                     provider_id: selectedProvider,
-                    user_id: user.id,
                     mes,
                     ano,
                     dia,
@@ -185,7 +190,7 @@ const CreateAppointment: React.FC = () => {
         } catch (err) {
             Alert.alert(err.message);
         }
-    }, [selectDia, selectHour, selectService, selectedProvider]);
+    }, [selectDia, selectHour, selectService, selectedProvider, user.id]);
 
     const handleDisponivel = useMemo(() => {
         return disponivel.filter((h) => {
@@ -236,6 +241,7 @@ const CreateAppointment: React.FC = () => {
                             marginTop: 30,
                             fontSize: 20,
                             fontFamily: "MontBold",
+                            color: cores.roxo,
                         }}
                     >
                         Horários disponíveis
@@ -263,22 +269,29 @@ const CreateAppointment: React.FC = () => {
                     }}
                 >
                     <SectionContente>
-                        {availabily.map(({ hour, avaliable }) => (
-                            <HourContainer
-                                enabled={avaliable}
-                                onPress={() => handleSelectHour(hour)}
-                                key={hour}
-                            >
-                                <Hour
-                                    available={avaliable}
-                                    select={selectHour === hour}
+                        <FlatList
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            data={availabily}
+                            keyExtractor={(h) => h.hour}
+                            renderItem={({ item: h }) => (
+                                <HourContainer
+                                    enabled={h.avaliable}
+                                    onPress={() => handleSelectHour(h.hour)}
                                 >
-                                    <HourText select={selectHour === hour}>
-                                        {hour}
-                                    </HourText>
-                                </Hour>
-                            </HourContainer>
-                        ))}
+                                    <Hour
+                                        available={h.avaliable}
+                                        select={selectHour === h.hour}
+                                    >
+                                        <HourText
+                                            select={selectHour === h.hour}
+                                        >
+                                            {h.hour}
+                                        </HourText>
+                                    </Hour>
+                                </HourContainer>
+                            )}
+                        />
                     </SectionContente>
                 </View>
             </Content>

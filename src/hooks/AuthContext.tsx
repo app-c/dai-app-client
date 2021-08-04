@@ -8,6 +8,7 @@ import React, {
     useEffect,
     useState,
 } from "react";
+import { Alert } from "react-native";
 import api from "../services/api";
 
 interface User {
@@ -67,7 +68,10 @@ export const AuthProvider: React.FC = ({ children }) => {
             senha,
         });
 
-        console.log(response.data);
+        const { message } = response.data;
+        if (message) {
+            Alert.alert("Erro", message);
+        }
 
         const { token, user } = response.data;
 

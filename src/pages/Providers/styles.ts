@@ -46,8 +46,7 @@ export const ProviderList = styled(FlatList as new () => FlatList<Provider>)`
 export const ListContainer = styled.View``;
 
 export const ProviderContainer = styled(RectButton)`
-    background: ${cores.roxo};
-    opacity: 0.8;
+    background: rgba(165, 99, 134, 0.7);
     border-radius: 16px;
     padding: 20px;
     flex-direction: row;

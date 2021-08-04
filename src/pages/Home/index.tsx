@@ -10,6 +10,8 @@ import {
     SimpleLineIcons,
     MaterialIcons,
     Fontisto,
+    FontAwesome5,
+    EvilIcons,
 } from "@expo/vector-icons";
 import { format, intervalToDuration, isAfter, isToday } from "date-fns";
 import prBr from "date-fns/locale/pt-BR";
@@ -56,21 +58,27 @@ export interface Response {
 }
 
 const Home: React.FC = () => {
-    const { user } = useAuth();
+    const { user, signOut } = useAuth();
     const { navigate } = useNavigation();
     const [agendamento, setAgendamento] = useState<Response[]>([]);
 
     const data = new Date(Date.now());
-    const dataFormat = format(data, "iiii dd/MM/yyyy", { locale: prBr });
 
     useEffect(() => {
-        try {
-            api.get("/agendamento/me").then((h) => {
-                setAgendamento(h.data);
-            });
-        } catch (err) {
-            console.log(err);
+        async function Load() {
+            try {
+                const res = await api.get("/agendamento/me");
+
+                const { message } = res.data;
+
+                setAgendamento(res.data);
+
+                console.log(message);
+            } catch (err) {
+                signOut();
+            }
         }
+        Load();
     }, []);
 
     const nexAg = useMemo(() => {
@@ -104,7 +112,6 @@ const Home: React.FC = () => {
                     return h;
                 }
             }
-            // return h;
         });
     }, [agendamento, nexAg]);
 
@@ -168,13 +175,21 @@ const Home: React.FC = () => {
     return (
         <>
             <Header>
-                <ContainerAvatar onPress={navigateProfile}>
-                    <ImageAvatar
-                        source={{
-                            uri: `https://dai-nails.s3.us-east-2.amazonaws.com/${user.avatar}`,
-                        }}
-                    />
-                </ContainerAvatar>
+                {user.avatar === null && (
+                    <ContainerAvatar onPress={navigateProfile}>
+                        <EvilIcons name="user" size={70} color={cores.roxo} />
+                    </ContainerAvatar>
+                )}
+
+                {user.avatar && (
+                    <ContainerAvatar onPress={navigateProfile}>
+                        <ImageAvatar
+                            source={{
+                                uri: `https://dai-nails.s3.us-east-2.amazonaws.com/${user.avatar}`,
+                            }}
+                        />
+                    </ContainerAvatar>
+                )}
                 <TextName>{user.nome}</TextName>
             </Header>
 
@@ -202,7 +217,9 @@ const Home: React.FC = () => {
                             </ContainerHorario>
 
                             <ContainerDescricao>
-                                <TextDescription>
+                                <TextDescription
+                                    style={{ fontFamily: "MontBold" }}
+                                >
                                     {format(
                                         new Date(
                                             nexAg.ano,

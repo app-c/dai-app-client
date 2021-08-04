@@ -1,8 +1,8 @@
-import { AntDesign } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useState } from 'react';
-import { Alert, TextInput } from 'react-native';
-import api from '../../services/api';
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
+import { Alert, TextInput } from "react-native";
+import api from "../../services/api";
 import {
     BottonIcon,
     Button,
@@ -11,34 +11,36 @@ import {
     ContainerInput,
     TextButoon,
     Title,
-} from './styles';
+} from "./styles";
 
 const Forgot: React.FC = () => {
-    const [codigo, setCodigo] = useState('');
-    const [senha, setSenha] = useState('');
+    const [codigo, setCodigo] = useState("");
+    const [senha, setSenha] = useState("");
 
     const { navigate } = useNavigation();
 
     const handleSubmit = useCallback(async () => {
         try {
-            await api.post('/reset', {
+            const res = await api.post("/reset", {
                 password: senha,
                 token: codigo,
             });
 
+            console.log(res.data);
+
             Alert.alert(
-                'Senha cadastrada com sucesso!',
-                'Você já pode fazer login na apricação',
+                "Senha cadastrada com sucesso!",
+                "Você já pode fazer login na apricação"
             );
 
-            navigate('SignIn');
+            navigate("SignIn");
         } catch (err) {
-            Alert.alert('Email incorreto');
+            Alert.alert("Email incorreto");
         }
     }, [codigo, navigate, senha]);
 
     const backHome = useCallback(() => {
-        navigate('SignIn');
+        navigate("SignIn");
     }, [navigate]);
 
     return (
@@ -48,7 +50,7 @@ const Forgot: React.FC = () => {
                     <AntDesign name="arrowleft" size={30} color="black" />
                 </BottonIcon>
             </ContainerIcons>
-            <Title style={{ fontFamily: 'MontBold' }}>
+            <Title style={{ fontFamily: "MontBold" }}>
                 Digite sua nova senha e o codigo que você rebebeu no seu email
             </Title>
 
@@ -71,7 +73,7 @@ const Forgot: React.FC = () => {
             </ContainerInput>
 
             <Button onPress={handleSubmit}>
-                <TextButoon style={{ fontFamily: 'MontBlack' }}>
+                <TextButoon style={{ fontFamily: "MontBlack" }}>
                     Enviar
                 </TextButoon>
             </Button>

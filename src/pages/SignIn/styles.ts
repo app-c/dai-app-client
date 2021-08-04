@@ -53,4 +53,5 @@ export const Forgot = styled.TouchableOpacity`
 
 export const ForgotText = styled.Text`
     font-size: 16px;
+    color: ${cores.roxo};
 `;

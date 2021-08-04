@@ -1,11 +1,11 @@
-import React from 'react';
-import { ActivityIndicator, Image, View } from 'react-native';
+import React from "react";
+import { ActivityIndicator, Image, View } from "react-native";
 
-import { useAuth } from '../hooks/AuthContext';
-import AuthRoutes from './auth.routes';
-import AppRoutes from './app.routes';
-import fundo from '../../assets/Fundo.png';
-import { cores } from '../utils/ferramentas';
+import { useAuth } from "../hooks/AuthContext";
+import AuthRoutes from "./auth.routes";
+import AppRoutes from "./app.routes";
+import fundo from "../../assets/Fundo.png";
+import { cores } from "../utils/ferramentas";
 
 const Routes: React.FC = () => {
     const { user, loading } = useAuth();
@@ -15,8 +15,8 @@ const Routes: React.FC = () => {
             <View
                 style={{
                     flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    justifyContent: "center",
+                    alignItems: "center",
                     backgroundColor: cores.fundo,
                 }}
             >

@@ -51,17 +51,17 @@ const SelectService: React.FC = () => {
     );
 
     const handleBackToHome = useCallback(() => {
-        navigate("Home");
+        // // navigate("Home");
+        // goBack();
+        console.log("ok");
     }, [navigate]);
 
+    console.log(handleBackToHome());
+
     useEffect(() => {
-        api.get(`/service/${providerId}/list`)
-            .then((response) => {
-                setRespost(response.data);
-            })
-            .then((h) => {
-                console.log(h);
-            });
+        api.get(`/service/${providerId}/list`).then((response) => {
+            setRespost(response.data);
+        });
     }, [providerId]);
 
     const styles = StyleSheet.create({

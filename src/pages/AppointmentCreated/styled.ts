@@ -1,6 +1,6 @@
-import { RectButton } from 'react-native-gesture-handler';
-import styled from 'styled-components/native';
-import { cores } from '../../utils/ferramentas';
+import { RectButton } from "react-native-gesture-handler";
+import styled from "styled-components/native";
+import { cores } from "../../utils/ferramentas";
 
 export const Container = styled.View`
     flex: 1;

@@ -51,8 +51,6 @@ const Prestadores: React.FC = () => {
         });
     }, []);
 
-    console.log(provider);
-
     const urlAvatar = "https://dai-nails.s3.us-east-2.amazonaws.com/";
 
     return (
