@@ -1,6 +1,6 @@
-import styled from 'styled-components/native';
-import { RectButton } from 'react-native-gesture-handler';
-import { cores } from '../../utils/ferramentas';
+import styled from "styled-components/native";
+import { RectButton } from "react-native-gesture-handler";
+import { cores } from "../../utils/ferramentas";
 
 export const Container = styled(RectButton)`
     height: 48px;

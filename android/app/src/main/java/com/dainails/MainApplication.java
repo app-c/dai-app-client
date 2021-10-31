@@ -1,5 +1,8 @@
 package com.dainails;
 
+import com.facebook.react.bridge.JSIModulePackage; // <- add
+import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
+
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
