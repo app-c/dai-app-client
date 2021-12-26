@@ -6,19 +6,20 @@ import SignUp from "../pages/SingUp";
 import SendMail from "../pages/SendEmail";
 import Forgot from "../pages/Forgot";
 import Splash from "../pages/Splash";
-import { Notification } from "../pages/Notification/Notification";
+import { Posts } from "../components/Post";
 
 const Auth = createStackNavigator();
 
 const AuthRoutes: React.FC = () => (
     <Auth.Navigator
+        // initialRouteName="Posts"
         screenOptions={{
             headerShown: false,
             cardStyle: { backgroundColor: "#F2F2F2" },
         }}
     >
         <Auth.Screen name="Splash" component={Splash} />
-        {/* <Auth.Screen name="Notification" component={Notification} /> */}
+        <Auth.Screen name="Posts" component={Posts} />
         <Auth.Screen name="SignIn" component={SignIn} />
         <Auth.Screen name="SignUp" component={SignUp} />
         <Auth.Screen name="Send" component={SendMail} />

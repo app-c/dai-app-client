@@ -45,11 +45,10 @@ export const ProviderList = styled(FlatList as new () => FlatList<Provider>)`
 
 export const ListContainer = styled.View``;
 
-export const ProviderContainer = styled(RectButton)`
+export const ProviderContainer = styled.TouchableOpacity`
     background: rgba(165, 99, 134, 0.7);
     border-radius: 16px;
     padding: 20px;
-    flex-direction: row;
     align-items: center;
     margin-top: 20px;
 `;
@@ -113,4 +112,11 @@ export const ContainerImage = styled.View`
 export const ImageFundo = styled.Image`
     width: 300px;
     height: 200px;
+`;
+
+export const BoxInfo = styled.TouchableOpacity`
+    padding: 5px;
+    background-color: ${cores.branco};
+    width: 40px;
+    height: 20px;
 `;

@@ -1,4 +1,4 @@
-import { RectButton } from "react-native-gesture-handler";
+import { BorderlessButton, RectButton } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
 import { Response } from "./index";
@@ -10,20 +10,23 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
+    width: 100%;
     height: 60px;
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
     margin-top: 20px;
+    padding: 0 30px;
 `;
 
-export const BackButton = styled.TouchableOpacity`
-    margin-left: 30px;
+export const HomeContainer = styled.TouchableOpacity`
+    width: 60px;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
 `;
 
-export const HomeContainer = styled(RectButton)`
-    margin-right: 30px;
-`;
+export const BackButton = styled.TouchableOpacity``;
 
 export const Title = styled.Text`
     align-items: center;
@@ -31,7 +34,13 @@ export const Title = styled.Text`
     margin-top: 30px;
     color: ${cores.roxo};
     font-size: 22px;
-    font-family: "MontBold";
+    font-family: "Mbold";
+`;
+
+export const TitleName = styled.Text`
+    color: ${cores.roxo};
+    font-size: 22px;
+    font-family: "Mbold";
 `;
 
 export const ServiceContainer = styled(

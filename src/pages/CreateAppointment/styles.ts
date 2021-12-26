@@ -78,7 +78,7 @@ export const Content = styled.View`
 `;
 
 export const HourText = styled.Text<HourProps>`
-    font-family: "MontBold";
+    font-family: "Mregular";
     font-size: 16px;
     color: ${(props) => (props.select ? `${cores.branco}` : `${cores.roxo}`)};
 `;

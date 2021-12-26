@@ -6,28 +6,37 @@ import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "styled-components/native";
 import AppLoading from "expo-app-loading";
 import * as Updates from "expo-updates";
+import { useFonts } from "expo-font";
 import Routes from "./src/routes";
 import AppProvider from "./src/hooks";
 
 import them from "./src/utils/themes";
-import { Fonts } from "./src/utils/ferramentas";
+import Mblak from "./assets/fonts/roboto/Roboto/Roboto-Black.ttf";
+import Mbold from "./assets/fonts/roboto/Roboto/Roboto-Bold.ttf";
+import Mregular from "./assets/fonts/roboto/Roboto/Roboto-Regular.ttf";
 
 const App: React.FC = () => {
-    useEffect(() => {
-        async function updateApp() {
-            const { isAvailable } = await Updates.checkForUpdateAsync();
-            if (isAvailable) {
-                await Updates.fetchUpdateAsync();
-                await Updates.reloadAsync(); // depende da sua estratégia
-            }
-        }
-        updateApp();
-    }, []);
+    // useEffect(() => {
+    //     async function updateApp() {
+    //         const { isAvailable } = await Updates.checkForUpdateAsync();
+    //         if (isAvailable) {
+    //             await Updates.fetchUpdateAsync();
+    //             await Updates.reloadAsync(); // depende da sua estratégia
+    //         }
+    //     }
+    //     updateApp();
+    // }, []);
 
-    const fonstsLoadd = Fonts();
-    if (!fonstsLoadd) {
+    const [fontsLoads] = useFonts({
+        Mblak,
+        Mbold,
+        Mregular,
+    });
+
+    if (!fontsLoads) {
         return <AppLoading />;
     }
+
     return (
         <NavigationContainer>
             <AppProvider>

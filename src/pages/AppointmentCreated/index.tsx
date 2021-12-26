@@ -41,6 +41,7 @@ Notifications.setNotificationHandler({
 interface RouteParams {
     date: number;
     provider: string;
+    token: string;
 }
 
 interface Response {
@@ -49,46 +50,16 @@ interface Response {
 
 const AgendamentoCriado: React.FC = () => {
     const { params } = useRoute();
-    const { user } = useAuth();
     const routeParams = params as RouteParams;
 
-    const [expoPushToken, setExpoPushToken] = useState<string | undefined>(
-        "ExponentPushToken[zJjy8bEQikwHiQOVBNdXgs]"
-    );
     const [provider_id, _] = useState(routeParams.provider);
     const { reset } = useNavigation();
-    const [token, setToken] = useState<Response>();
 
-    // useEffect(() => {
-    //     registerForPushNotificationsAsync();
+    console.log(routeParams.token);
 
-    //     // This listener is fired whenever a notification is received while the app is foregrounded
-    //     notificationListener.current =
-    //         Notifications.addNotificationReceivedListener((notification) => {
-    //             setNotification(notification);
-    //         });
-
-    //     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    //     responseListener.current =
-    //         Notifications.addNotificationResponseReceivedListener(
-    //             (response) => {
-    //                 console.log(response);
-    //             }
-    //         );
-
-    //     return () => {
-    //         Notifications.removeNotificationSubscription(
-    //             notificationListener.current
-    //         );
-    //         Notifications.removeNotificationSubscription(
-    //             responseListener.current
-    //         );
-    //     };
-    // }, []);
-
-    async function sendPushNotification() {
+    const sendPushNotification = useCallback(async () => {
         const message = {
-            to: token?.token,
+            to: routeParams.token,
             sound: "default",
             title: "Novo agendamento",
             body: `vocẽ tem um novo agendamento para ${format(
@@ -106,20 +77,7 @@ const AgendamentoCriado: React.FC = () => {
             },
             body: JSON.stringify(message),
         });
-    }
-
-    useEffect(() => {
-        async function Token() {
-            const response = await api.get("/prestador/profile", {
-                params: { provider_id },
-            });
-
-            setToken(response.data);
-        }
-        Token();
-    }, [provider_id]);
-
-    console.log(token?.token);
+    }, [routeParams.date, routeParams.token]);
 
     const handleOkButton = useCallback(async () => {
         sendPushNotification();
@@ -127,7 +85,7 @@ const AgendamentoCriado: React.FC = () => {
             routes: [{ name: "Home" }],
             index: 0,
         });
-    }, [reset]);
+    }, [reset, sendPushNotification]);
 
     const formattedDate = useMemo(() => {
         return format(routeParams.date, "dd/MM/yyyy 'ás' HH:mm'h'", {

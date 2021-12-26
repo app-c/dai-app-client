@@ -2,6 +2,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign, Fontisto } from "@expo/vector-icons";
+import { View } from "react-native";
 import {
     Container,
     Header,
@@ -18,6 +19,7 @@ import {
     Title,
     ContainerImage,
     ImageFundo,
+    BoxInfo,
 } from "./styles";
 import api from "../../services/api";
 import fundo from "../../../assets/FundoA.png";
@@ -28,6 +30,7 @@ export interface Provider {
     nome: string;
     avatar: string;
     funcao: string;
+    token: string;
 }
 
 const Prestadores: React.FC = () => {
@@ -35,8 +38,8 @@ const Prestadores: React.FC = () => {
     const { navigate, goBack } = useNavigation();
 
     const navigaeTotCreateAppointment = useCallback(
-        (providerId: string) => {
-            navigate("SelectService", { providerId });
+        (providerId: string, token: string) => {
+            navigate("SelectService", { providerId, token });
         },
         [navigate]
     );
@@ -51,7 +54,7 @@ const Prestadores: React.FC = () => {
         });
     }, []);
 
-    const urlAvatar = "https://dai-nails.s3.us-east-2.amazonaws.com/";
+    const urlAvatar = "https://dai-nails.s3.us-east-2.amazonaws.com/avatar/";
 
     return (
         <Container>
@@ -65,9 +68,7 @@ const Prestadores: React.FC = () => {
                 </HomeContainer>
             </Header>
 
-            <Title style={{ fontFamily: "MontBold" }}>
-                Escolha um prestador(a)
-            </Title>
+            <Title>Escolha um prestador(a)</Title>
 
             <ListContainer>
                 <ProviderList
@@ -77,28 +78,29 @@ const Prestadores: React.FC = () => {
                     renderItem={({ item: provider }) => (
                         <ProviderContainer
                             onPress={() =>
-                                navigaeTotCreateAppointment(provider.id)
+                                navigaeTotCreateAppointment(
+                                    provider.id,
+                                    provider.token
+                                )
                             }
                         >
-                            <ProviderAvatar
-                                source={{
-                                    uri: `${urlAvatar}${provider.avatar}`,
-                                }}
-                            />
-                            <ProviderInfo>
-                                <ProviderMeta>
-                                    <ProviderName
-                                        style={{ fontFamily: "MontBold" }}
-                                    >
-                                        {provider.nome}
-                                    </ProviderName>
-                                    <ProviderMetaText
-                                        style={{ fontFamily: "MontRegular" }}
-                                    >
-                                        {provider.funcao}
-                                    </ProviderMetaText>
-                                </ProviderMeta>
-                            </ProviderInfo>
+                            <View>
+                                <ProviderAvatar
+                                    source={{
+                                        uri: `${urlAvatar}${provider.avatar}`,
+                                    }}
+                                />
+                                <ProviderInfo>
+                                    <ProviderMeta>
+                                        <ProviderName>
+                                            {provider.nome}
+                                        </ProviderName>
+                                        <ProviderMetaText>
+                                            {provider.funcao}
+                                        </ProviderMetaText>
+                                    </ProviderMeta>
+                                </ProviderInfo>
+                            </View>
                         </ProviderContainer>
                     )}
                 />

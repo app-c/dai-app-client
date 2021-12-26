@@ -18,6 +18,7 @@ import {
     HomeContainer,
     ContainerImage,
     ImageFundo,
+    TitleName,
 } from "./styles";
 import { cores } from "../../utils/ferramentas";
 import { useAuth } from "../../hooks/AuthContext";
@@ -25,6 +26,7 @@ import fundo from "../../../assets/FundoB.png";
 
 interface RouteParams {
     providerId: string;
+    token: string;
 }
 
 export interface Response {
@@ -39,24 +41,17 @@ const SelectService: React.FC = () => {
     const route = useRoute();
     const { user } = useAuth();
     const { navigate, goBack } = useNavigation();
-    const { providerId } = route.params as RouteParams;
+    const { providerId, token } = route.params as RouteParams;
 
     const [respost, setRespost] = useState<Response[]>([]);
+    console.log(token);
 
     const navigateToCreateAppointment = useCallback(
-        (service: string, providerId: string) => {
-            navigate("CreateAgendamento", { service, providerId });
+        (service: string, providerId: string, token: string) => {
+            navigate("CreateAgendamento", { service, providerId, token });
         },
         [navigate]
     );
-
-    const handleBackToHome = useCallback(() => {
-        // // navigate("Home");
-        // goBack();
-        console.log("ok");
-    }, [navigate]);
-
-    console.log(handleBackToHome());
 
     useEffect(() => {
         api.get(`/service/${providerId}/list`).then((response) => {
@@ -79,23 +74,22 @@ const SelectService: React.FC = () => {
 
     return (
         <Container>
+            <ContainerImage>
+                <ImageFundo source={fundo} />
+            </ContainerImage>
             <Header>
                 <BackButton onPress={goBack}>
                     <Feather name="chevron-left" size={35} color={cores.roxo} />
                 </BackButton>
 
-                <Title>{user.nome}</Title>
+                <TitleName>{user.nome}</TitleName>
 
-                <HomeContainer onPress={handleBackToHome}>
+                <HomeContainer onPress={() => navigate("Home")}>
                     <Fontisto name="home" size={35} color={cores.roxo} />
                 </HomeContainer>
             </Header>
 
-            <ContainerImage>
-                <ImageFundo source={fundo} />
-            </ContainerImage>
-
-            <Title style={{ fontFamily: "MontBold" }}>Escolha um serviço</Title>
+            <Title>Escolha um serviço</Title>
 
             <ServiceContainer
                 contentContainerStyle={{
@@ -109,24 +103,18 @@ const SelectService: React.FC = () => {
                         onPress={() =>
                             navigateToCreateAppointment(
                                 service.service,
-                                providerId
+                                providerId,
+                                token
                             )
                         }
                     >
                         <Box>
-                            <ServiceText style={{ fontFamily: "MontBold" }}>
-                                {service.service}
-                            </ServiceText>
-                            <Description style={{ fontFamily: "MontRegular" }}>
-                                {" "}
-                                {service.description}
-                            </Description>
-                            <Description style={{ fontFamily: "MontBold" }}>
+                            <ServiceText>{service.service}</ServiceText>
+                            <Description> {service.description}</Description>
+                            <Description>
                                 Duração: <Text>{service.time}h</Text>
                             </Description>
-                            <Description style={{ fontFamily: "MontBold" }}>
-                                R$ {service.value}
-                            </Description>
+                            <Description>R$ {service.value}</Description>
                             <View
                                 style={{
                                     alignItems: "flex-end",
@@ -135,11 +123,7 @@ const SelectService: React.FC = () => {
                                     width: "100%",
                                 }}
                             >
-                                <TextDescription
-                                    style={{ fontFamily: "MontBold" }}
-                                >
-                                    Agendar
-                                </TextDescription>
+                                <TextDescription>Agendar</TextDescription>
                             </View>
                         </Box>
                     </BoxContainer>

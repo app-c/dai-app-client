@@ -1,22 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable array-callback-return */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Alert, Image, Text, View } from "react-native";
-import {
-    Feather,
-    SimpleLineIcons,
-    MaterialIcons,
-    Fontisto,
-    FontAwesome5,
-    EvilIcons,
-} from "@expo/vector-icons";
+import { Alert, Image, Modal, Text, View } from "react-native";
+import { EvilIcons } from "@expo/vector-icons";
 import { format, intervalToDuration, isAfter, isToday } from "date-fns";
 import prBr from "date-fns/locale/pt-BR";
-import AppLoading from "expo-app-loading";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { MotiView } from "moti";
 import { useAuth } from "../../hooks/AuthContext";
 import api from "../../services/api";
 import { cores, Fonts } from "../../utils/ferramentas";
@@ -33,6 +27,7 @@ import {
     ContainerDescricao,
     ContainerHorario,
     ContainerTitle,
+    Flat,
     Header,
     ImageAvatar,
     ImageFundo,
@@ -42,6 +37,7 @@ import {
     TextName,
     Title,
 } from "./styles";
+import { PromocaoModal } from "../../components/Promocao";
 
 export interface Response {
     ano: number;
@@ -57,29 +53,50 @@ export interface Response {
     };
 }
 
+export interface IPromocao {
+    id: string;
+    descricao: string;
+    prestador_id: string;
+    image: string;
+}
+
 const Home: React.FC = () => {
     const { user, signOut } = useAuth();
     const { navigate } = useNavigation();
     const [agendamento, setAgendamento] = useState<Response[]>([]);
+    const [promocao, setPromocao] = useState<IPromocao[]>([]);
+    const [modal, setModal] = useState(false);
 
     const data = new Date(Date.now());
 
-    useEffect(() => {
-        async function Load() {
-            try {
-                const res = await api.get("/agendamento/me");
+    const Promocao = useCallback(async () => {
+        const res = await api.get("/promocao/list");
 
-                const { message } = res.data;
+        setPromocao(res.data);
+    }, []);
+    console.log(promocao);
 
-                setAgendamento(res.data);
+    const Agendamentos = useCallback(async () => {
+        try {
+            const res = await api.get("/agendamento/me");
 
-                console.log(message);
-            } catch (err) {
+            setAgendamento(res.data);
+        } catch (err: any) {
+            if (err.response.data.message === "token expirou") {
+                Alert.alert(err.response.data.message);
                 signOut();
             }
         }
-        Load();
+    }, [signOut]);
+
+    const CloseModal = useCallback(() => {
+        setModal(false);
     }, []);
+
+    useEffect(() => {
+        Agendamentos();
+        Promocao();
+    }, [Agendamentos, Promocao]);
 
     const nexAg = useMemo(() => {
         return agendamento.find((h) => {
@@ -117,6 +134,7 @@ const Home: React.FC = () => {
 
     const navigateProfile = useCallback(() => {
         navigate("Profile");
+        console.log("oks");
     }, [navigate]);
 
     const handleDelete = useCallback(
@@ -172,6 +190,12 @@ const Home: React.FC = () => {
         return format(new Date(ano, mes, dia, 0, from), `HH: ${"\n"}mm`);
     }
 
+    useFocusEffect(
+        useCallback(() => {
+            setModal(true);
+        }, [])
+    );
+
     return (
         <>
             <Header>
@@ -185,7 +209,7 @@ const Home: React.FC = () => {
                     <ContainerAvatar onPress={navigateProfile}>
                         <ImageAvatar
                             source={{
-                                uri: `https://dai-nails.s3.us-east-2.amazonaws.com/${user.avatar}`,
+                                uri: `https://dai-nails.s3.us-east-2.amazonaws.com/avatar/${user.avatar}`,
                             }}
                         />
                     </ContainerAvatar>
@@ -193,13 +217,27 @@ const Home: React.FC = () => {
                 <TextName>{user.nome}</TextName>
             </Header>
 
-            <Container>
+            <Modal visible={modal} transparent>
+                <Flat
+                    data={promocao}
+                    keyExtractor={(h) => h.id}
+                    renderItem={({ item: h }) => (
+                        <PromocaoModal ofModal={CloseModal} image={h.image} />
+                    )}
+                />
+            </Modal>
+
+            <Container
+                animate={{
+                    opacity: modal ? 0.3 : 1,
+                }}
+            >
                 <ImageFundo source={Fundo} />
                 <ContainerTitle onPress={navigateToSelectProviders}>
                     <Title>Agendar</Title>
                 </ContainerTitle>
 
-                {nexAg === undefined && <Title>Sem horários marcados</Title>}
+                {!nexAg && <Title>Sem horários marcados</Title>}
 
                 {isToday(data) && nexAg && (
                     <View style={{ marginTop: 20 }}>
@@ -217,9 +255,7 @@ const Home: React.FC = () => {
                             </ContainerHorario>
 
                             <ContainerDescricao>
-                                <TextDescription
-                                    style={{ fontFamily: "MontBold" }}
-                                >
+                                <TextDescription>
                                     {format(
                                         new Date(
                                             nexAg.ano,
@@ -305,70 +341,6 @@ const Home: React.FC = () => {
                     )}
                 />
             </Container>
-
-            {/* <Container>
-
-
-
-               <BoxAgenda
-                  data={afterAgendamentos}
-                  keyExtractor={h => h.id}
-                  renderItem={({ item: h }) => (
-                     <>
-                        <HorariosContainer>
-                           <HpContainer>
-                              <Deteles>
-                                 <SimpleLineIcons name="note" size={24} />
-
-                                 <Hp style={{ fontFamily: 'MontBold' }}>
-                                    {h.service}
-                                 </Hp>
-                              </Deteles>
-
-                              <Deteles>
-                                 <MaterialIcons name="alarm" size={24} />
-                                 <Hp>
-                                    {format(
-                                       new Date(
-                                          h.ano,
-                                          h.mes - 1,
-                                          h.dia,
-                                          0,
-                                          h.from,
-                                          0,
-                                       ),
-                                       `dd/MM/yyyy 'as' HH:mm 'hs'`,
-                                    )}
-                                 </Hp>
-                              </Deteles>
-
-                              <Deteles>
-                                 <Feather name="trash-2" size={24} />
-                                 <ButtonDelet
-                                    onPress={() => {
-                                       handleDelete(
-                                          h.dia,
-                                          h.mes,
-                                          h.ano,
-                                          h.from,
-                                          h.id,
-                                       );
-                                    }}
-                                 >
-                                    <ButtonDeletText
-                                       style={{ fontFamily: 'MontBold' }}
-                                    >
-                                       Desmarcar
-                                    </ButtonDeletText>
-                                 </ButtonDelet>
-                              </Deteles>
-                           </HpContainer>
-                        </HorariosContainer>
-                     </>
-                  )}
-               />
-            </BodyContainer>
-         </Container> */}
         </>
     );
 };

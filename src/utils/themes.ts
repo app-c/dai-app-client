@@ -1,17 +1,36 @@
 export default {
-   color: {
-      primary: '#A56386',
+    // export const cores = {
+    //     rosa: "#DFC5C5",
+    //     rosaClaro: "#FDF2ED",
+    //     roxo: "#A56386",
+    //     branco: "#f1f1f1",
+    //     fundo: "#FADDDF",
+    //     texto: {
+    //         cinza_Escuro: "#585858",
+    //     },
+    // };
 
-      secondary: '',
+    color: {
+        primary: "#FADDDF",
 
-      success: '',
+        secondary: "#FDF2ED",
 
-      attention: 'red',
+        focus: "#A56386",
 
-      title: '',
-      text: '',
-      backgraund: '#DFC5C5',
+        success: "",
 
-      botton: '',
-   },
+        attention: "red",
+
+        title: "",
+        text: "",
+        backgraund: "#DFC5C5",
+
+        botton: "",
+    },
+
+    font: {
+        Mbold: "Mbold",
+        Mregular: "Mregular",
+        Mblak: "Mblak",
+    },
 };

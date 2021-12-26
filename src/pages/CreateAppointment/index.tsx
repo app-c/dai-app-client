@@ -33,6 +33,7 @@ import { useAuth } from "../../hooks/AuthContext";
 interface RouteParams {
     providerId: string;
     service: string;
+    token: string;
 }
 
 export interface Provider {
@@ -59,6 +60,7 @@ const CreateAppointment: React.FC = () => {
     const routeParams = route.params as RouteParams;
     const { goBack, navigate } = useNavigation();
     const { user } = useAuth();
+    console.log(routeParams.token);
 
     const [selectedProvider] = useState(routeParams.providerId);
 
@@ -119,7 +121,6 @@ const CreateAppointment: React.FC = () => {
             const time = new Date(ano, mes - 1, dia, 0, tempo, 0);
             await api.post("agendamento", {
                 provider_id: selectedProvider,
-                user_id: user.id,
                 from: selectHour,
                 dia,
                 mes,
@@ -132,18 +133,19 @@ const CreateAppointment: React.FC = () => {
             navigate("AgendamentoCriado", {
                 date: time.getTime(),
                 provider: selectedProvider,
+                token: routeParams.token,
             });
-        } catch (err) {
-            Alert.alert("Erro ao criar agendamento", err.message);
+        } catch (err: any) {
+            Alert.alert("Erro ao criar agendamento", err.response.data.message);
         }
     }, [
         selectHour,
         selectDia,
         selectedProvider,
-        user.id,
         selectService,
         Notification,
         navigate,
+        routeParams.token,
     ]);
 
     const availabily = useMemo(() => {
@@ -213,9 +215,7 @@ const CreateAppointment: React.FC = () => {
             <Content>
                 <Calendario>
                     <OpenPikerButon onPress={hendleDatePiker}>
-                        <OpenPickerText style={{ fontFamily: "MontBlack" }}>
-                            Escolha uma data
-                        </OpenPickerText>
+                        <OpenPickerText>Escolha uma data</OpenPickerText>
                     </OpenPikerButon>
                     {showPider && (
                         <CalendaPiker
@@ -227,7 +227,6 @@ const CreateAppointment: React.FC = () => {
                         style={{
                             marginTop: 10,
                             fontSize: 16,
-                            fontFamily: "MontBold",
                             color: cores.branco,
                         }}
                     >
@@ -240,7 +239,6 @@ const CreateAppointment: React.FC = () => {
                         style={{
                             marginTop: 30,
                             fontSize: 20,
-                            fontFamily: "MontBold",
                             color: cores.roxo,
                         }}
                     >
@@ -252,7 +250,6 @@ const CreateAppointment: React.FC = () => {
                         style={{
                             marginTop: 30,
                             fontSize: 20,
-                            fontFamily: "MontBold",
                             color: cores.roxo,
                         }}
                     >
@@ -296,7 +293,7 @@ const CreateAppointment: React.FC = () => {
                 </View>
             </Content>
             <CreateAppointmentButton onPress={handleCreateAppointment}>
-                <CreateAppointmentButtonText style={{ fontFamily: "MontBold" }}>
+                <CreateAppointmentButtonText>
                     Agendar
                 </CreateAppointmentButtonText>
             </CreateAppointmentButton>

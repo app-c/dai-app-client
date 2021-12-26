@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from "react";
 import Animated, {
     interpolate,
     useAnimatedStyle,
     useSharedValue,
     withTiming,
-} from 'react-native-reanimated';
-import { useNavigation } from '@react-navigation/native';
-import { Container, Image, ImageT } from './styled';
-import Logo from '../../../assets/Logo.png';
-import LogoT from '../../../assets/LogoT.png';
+} from "react-native-reanimated";
+import { useNavigation } from "@react-navigation/native";
+import { Container, Image, ImageT } from "./styled";
+import Logo from "../../../assets/Logo.png";
+import LogoT from "../../../assets/LogoT.png";
 
 export function Splash() {
     const { navigate } = useNavigation();
@@ -29,7 +29,7 @@ export function Splash() {
 
     const time = useCallback(() => {
         setTimeout(() => {
-            navigate('SignIn');
+            navigate("Posts");
         }, 3000);
     }, [navigate]);
 

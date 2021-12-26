@@ -1,3 +1,4 @@
+import { MotiView } from "moti";
 import { RectButton } from "react-native-gesture-handler";
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable camelcase */
@@ -5,9 +6,12 @@ import { FlatList } from "react-native";
 
 import styled from "styled-components/native";
 import { cores } from "../../utils/ferramentas";
-import { Response } from "./index";
+import { IPromocao, Response } from "./index";
+import themes from "../../utils/themes";
 
-export const Container = styled.View`
+const { color, font } = themes;
+
+export const Container = styled(MotiView)`
     align-items: center;
     flex: 1;
     background: ${cores.fundo};
@@ -20,7 +24,7 @@ export const Header = styled.View`
     align-items: center;
     flex-direction: row;
     padding: 25px;
-    background: ${cores.fundo};
+    background: ${color.primary};
 `;
 
 export const ContainerAvatar = styled.TouchableOpacity``;
@@ -35,7 +39,8 @@ export const ImageAvatar = styled.Image`
 export const TextName = styled.Text`
     font-size: 22px;
     margin-left: 30%;
-    color: ${cores.roxo};
+    color: ${color.focus};
+    font-family: "Mregular";
 `;
 
 export const ImageFundo = styled.Image`
@@ -44,7 +49,7 @@ export const ImageFundo = styled.Image`
     opacity: 0.3;
 `;
 
-export const ContainerTitle = styled(RectButton)`
+export const ContainerTitle = styled.TouchableOpacity`
     width: 158px;
     height: 47px;
     background: ${cores.branco};
@@ -122,6 +127,8 @@ export const ContainerDelete = styled.TouchableOpacity`
 
 export const TextDelete = styled.Text`
     font-size: 16px;
-    font-family: "MontBlack";
+    font-family: "Mblak";
     color: ${cores.branco};
 `;
+
+export const Flat = styled(FlatList as new () => FlatList<IPromocao>)``;
