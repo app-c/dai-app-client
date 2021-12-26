@@ -7,23 +7,16 @@ import {
     Container,
     Header,
     ListContainer,
-    ProviderContainer,
-    ProviderName,
     ProviderList,
-    ProviderInfo,
-    ProviderAvatar,
-    ProviderMeta,
-    ProviderMetaText,
     BackButton,
     HomeContainer,
     Title,
-    ContainerImage,
     ImageFundo,
-    BoxInfo,
 } from "./styles";
 import api from "../../services/api";
 import fundo from "../../../assets/FundoA.png";
 import { cores } from "../../utils/ferramentas";
+import { Prestador } from "../../components/Prestador";
 
 export interface Provider {
     id: string;
@@ -58,6 +51,8 @@ const Prestadores: React.FC = () => {
 
     return (
         <Container>
+            <ImageFundo source={fundo} />
+
             <Header>
                 <BackButton onPress={goBack}>
                     <AntDesign name="arrowleft" size={40} color={cores.roxo} />
@@ -76,38 +71,26 @@ const Prestadores: React.FC = () => {
                     data={provider}
                     keyExtractor={(provider) => provider.id}
                     renderItem={({ item: provider }) => (
-                        <ProviderContainer
-                            onPress={() =>
-                                navigaeTotCreateAppointment(
-                                    provider.id,
-                                    provider.token
-                                )
-                            }
-                        >
-                            <View>
-                                <ProviderAvatar
-                                    source={{
-                                        uri: `${urlAvatar}${provider.avatar}`,
-                                    }}
-                                />
-                                <ProviderInfo>
-                                    <ProviderMeta>
-                                        <ProviderName>
-                                            {provider.nome}
-                                        </ProviderName>
-                                        <ProviderMetaText>
-                                            {provider.funcao}
-                                        </ProviderMetaText>
-                                    </ProviderMeta>
-                                </ProviderInfo>
-                            </View>
-                        </ProviderContainer>
+                        <View>
+                            <Prestador
+                                nome={provider.nome}
+                                avatar={`${urlAvatar}${provider.avatar}`}
+                                funcao={provider.funcao}
+                                changePrestador={() =>
+                                    navigaeTotCreateAppointment(
+                                        provider.id,
+                                        provider.token
+                                    )
+                                }
+                                linkFace={() => console.log("face")}
+                                linkIns={() => console.log("inta")}
+                                linkMap={() => console.log("map")}
+                                linkW={() => console.log("whats")}
+                            />
+                        </View>
                     )}
                 />
             </ListContainer>
-            <ContainerImage>
-                <ImageFundo source={fundo} />
-            </ContainerImage>
         </Container>
     );
 };

@@ -49,7 +49,7 @@ export const ServiceContainer = styled(
     padding: 25px;
 `;
 
-export const BoxContainer = styled(RectButton)``;
+export const BoxContainer = styled.TouchableOpacity``;
 
 export const Box = styled.View`
     background: rgba(165, 99, 134, 0.8);

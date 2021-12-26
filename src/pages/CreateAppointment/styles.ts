@@ -48,7 +48,7 @@ export const SectionContente = styled.View`
     margin-top: 30px;
 `;
 
-export const HourContainer = styled(RectButton)``;
+export const HourContainer = styled.TouchableOpacity``;
 
 export const Hour = styled.View<HourProps>`
     background: ${(props) => (props.select ? `${cores.roxo}` : "#fff")};
@@ -61,7 +61,7 @@ export const Hour = styled.View<HourProps>`
     opacity: ${(props) => (props.available ? 1 : 0.3)};
 `;
 
-export const CreateAppointmentButton = styled(RectButton)`
+export const CreateAppointmentButton = styled.TouchableOpacity`
     height: 50px;
     background: ${cores.roxo};
     border-radius: 10px;
@@ -88,7 +88,7 @@ export const CreateAppointmentButtonText = styled.Text`
     font-size: 18px;
 `;
 
-export const OpenPikerButon = styled(RectButton)`
+export const OpenPikerButon = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
     width: 100%;

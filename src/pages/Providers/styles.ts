@@ -1,3 +1,4 @@
+import { RFPercentage } from "react-native-responsive-fontsize";
 import { FlatList } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import styled from "styled-components/native";
@@ -103,15 +104,12 @@ export const ButtonNextTitle = styled.Text`
     font-size: 16px;
 `;
 
-export const ContainerImage = styled.View`
-    align-items: center;
-    justify-content: center;
-    margin-top: 20%;
-`;
-
 export const ImageFundo = styled.Image`
     width: 300px;
     height: 200px;
+    position: absolute;
+
+    top: ${RFPercentage(40)}px;
 `;
 
 export const BoxInfo = styled.TouchableOpacity`

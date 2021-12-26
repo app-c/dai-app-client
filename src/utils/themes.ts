@@ -16,6 +16,7 @@ export default {
         secondary: "#FDF2ED",
 
         focus: "#A56386",
+        focus_light: "rgba(165, 99, 134, 0.7)",
 
         success: "",
 

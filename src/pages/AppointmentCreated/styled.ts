@@ -22,7 +22,7 @@ export const Title = styled.Text`
     color: ${cores.roxo};
 `;
 
-export const OkButton = styled(RectButton)`
+export const OkButton = styled.TouchableOpacity`
     background: ${cores.roxo};
     width: 100%;
     justify-content: center;
