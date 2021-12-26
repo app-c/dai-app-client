@@ -71,8 +71,7 @@ export const ContainerAgenda = styled.View`
     width: 100%;
     justify-content: space-between;
 
-    background: rgba(165, 99, 134, 0.8);
-    /* opacity: 0.8; */
+    background: rgba(165, 99, 134, 0.9);
 
     margin-top: 5px;
     border-radius: 10px;
